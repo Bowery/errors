@@ -44,8 +44,8 @@ func NewStackError(err error) error {
 	se := &StackError{
 		Err: err,
 		Trace: &Trace{
-			Frames:    make([]*frame, 0),
-			Exception: &exception{Message: err.Error(), Class: errClass(err)},
+			Frames:    make([]*Frame, 0),
+			Exception: &Exception{Message: err.Error(), Class: errClass(err)},
 		},
 	}
 
@@ -57,7 +57,7 @@ func NewStackError(err error) error {
 			break
 		}
 
-		f := &frame{File: file, Line: line, Method: routineName(pc)}
+		f := &Frame{File: file, Line: line, Method: routineName(pc)}
 		se.Trace.Frames = append(se.Trace.Frames, f)
 	}
 
@@ -83,18 +83,18 @@ func (se *StackError) Stack() string {
 
 // Trace contains the stack frames, and the exception information.
 type Trace struct {
-	Frames    []*frame   `json:"frames"`
-	Exception *exception `json:"exception"`
+	Frames    []*Frame   `json:"frames"`
+	Exception *Exception `json:"exception"`
 }
 
-// exception contains the error message and it's class origin.
-type exception struct {
+// Exception contains the error message and it's class origin.
+type Exception struct {
 	Class   string `json:"class"`
 	Message string `json:"message"`
 }
 
-// frame contains line, file and method info for a stack frame.
-type frame struct {
+// Frame contains line, file and method info for a stack frame.
+type Frame struct {
 	File   string `json:"filename"`
 	Line   int    `json:"lineno"`
 	Method string `json:"method"`
