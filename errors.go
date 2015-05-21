@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-// New creates new error, this solves issue of name collision with
+// New creates a new error, this solves issue of name collision with
 // errors pkg.
 func New(args ...interface{}) error {
 	return errors.New(strings.TrimRight(fmt.Sprintln(args...), "\n"))
